@@ -1,6 +1,6 @@
 
 import React from "react";
- import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+ import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import UserMenu from "@/components/UserMenu"
@@ -35,6 +35,10 @@ const Header = async () => {
           <SignInButton forceRedirectUrl="/dashboard">
             <Button variant="outline">Login</Button>
           </SignInButton>
+
+          <SignUpButton>
+    <Button variant="default">Sign Up</Button>
+  </SignUpButton>
         </SignedOut>
         <SignedIn>
           <UserMenu />
