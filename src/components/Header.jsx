@@ -4,14 +4,14 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import UserMenu from "@/components/UserMenu"
-// import { checkUser } from "@/lib/checkUser";
+ import { checkUser } from "@/lib/checkUser";
 
 import { Button } from "./ui/button";
 import { PenBox } from "lucide-react";
 
-async function Header() {
- // await checkUser();
 
+const Header = async () => {
+  await checkUser()
   return (
     <nav className="mx-auto py-2 px-4 flex justify-between items-center shadow-md border-b-2">
       <Link href="/" className="flex items-center">
@@ -41,7 +41,7 @@ async function Header() {
         </SignedIn>
       </div>
     </nav>
-  );
+  )
 }
 
-export default Header;
+export default Header

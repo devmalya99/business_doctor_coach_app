@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -24,12 +23,20 @@ model User {
   role         String?  @default("coach")   
   imageUrl     String?
   clientIds    String[] // 🔗 Array of Clerk IDs of clients
+
+  // 🆕 Coach-specific fields
+  industry     String?   // e.g., "Finance", "Tech"
+  bio          String?   // Short profile description
+  experience   String?   // Could be "10 years in Marketing", or just a number as string
+
   events       Event[]  @relation("UserEvents")
   bookings     Booking[] @relation("UserBookings")
   availability Availability?
+
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
+
 
 model Event {
   id          String   @id @default(uuid())
