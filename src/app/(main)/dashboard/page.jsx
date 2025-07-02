@@ -7,14 +7,48 @@ import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {usernameSchema} from "@/app/lib/validators"
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import useFetch from "@/hooks/useFetch";
+import { updateUsername } from "@/actions/user";
+import useOrigin from "@/hooks/useOrigin";
+import {BarLoader} from "react-spinners"
 const DashboardPage = () => {
   const { user, isLoaded } = useUser();
+     const origin = useOrigin();
+     console.log("user",user)
 
-  
+  useFetch(updateUsername)
 
-  useForm({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
     resolver: zodResolver(usernameSchema),
   });
+
+  useEffect(() => {
+      setValue("username", user?.username);
+  }, [isLoaded]);
+
+  //call the user server action using useFetch hook
+  const {
+    loading,
+    error,
+    fn:fnUpdateUsername
+  } = useFetch(updateUsername);
+
+  const onSubmitFn=async(data)=>{
+    console.log(data)
+    fnUpdateUsername({
+    username: data.username,
+     userId: user.id,
+  });
+  }
+
+
+
   return (
     <div className="space-y-8">
       <Card>
@@ -54,14 +88,27 @@ const DashboardPage = () => {
           <CardTitle>Your Unique Link</CardTitle>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit(onSubmitFn)}>
             <div>
               <div className="flex gap-2 mb-4">
-                <span className="p-1">{window?.location.origin}</span>
+                <span className="p-1">{origin}</span>
 
-                <Input placeholder="username" />
+                <Input {...register("username")} placeholder="username" />
               </div>
+              {
+                errors.username && (
+                  <p className="text-red-500 my-2">{errors.username.message}</p>
+                )
+              }
+              {
+                error && (
+                  <p className="text-red-500 my-2">{error?.message}</p>
+                )
+              }
             </div>
+            {loading && <BarLoader 
+            className="my-4"
+            width={"100%"} color="#36d7b7" />}
             <Button type="submit">Update UserName</Button>
           </form>
         </CardContent>
