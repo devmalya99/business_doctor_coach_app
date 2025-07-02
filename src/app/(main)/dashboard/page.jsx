@@ -40,11 +40,8 @@ const DashboardPage = () => {
   } = useFetch(updateUsername);
 
   const onSubmitFn=async(data)=>{
-    console.log(data)
-    fnUpdateUsername({
-    username: data.username,
-     userId: user.id,
-  });
+    console.log(error)
+    fnUpdateUsername(data.username);
   }
 
 

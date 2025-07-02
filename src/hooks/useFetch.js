@@ -16,7 +16,7 @@ const useFetch = (cb) => {
 
       setError(null);
     } catch (error) {
-      setError(null);
+      setError(error);
     } finally {
       setLoading(false);
     }
