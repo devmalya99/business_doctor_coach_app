@@ -1,5 +1,7 @@
 "use server";
+import { eventSchema } from "@/app/lib/validators";
 import { auth } from "@clerk/nextjs/server";
+import {db} from "@/lib/prisma"
 
 export async function createEvent(data) {
   const { userId } = await auth();
@@ -8,8 +10,24 @@ export async function createEvent(data) {
     throw new Error("Unauthorized");
   }
 
-  console.log("creating event for:", userId);
+  const validatedData=eventSchema.parse(data)
 
-  // You can now safely save `userId` with the event in the DB
-  return { success: true };
+  const user = await db.user.findUnique({
+    where:{clerkUserId:userId}
+  })
+
+
+  if(!user){
+    throw new Error ("User not found")
+  }
+
+  const event = await db.event.create({
+    data:{
+      ...validatedData,
+      userId:user.id,
+    }
+  })
+
+
+  return event;
 }

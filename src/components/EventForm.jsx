@@ -1,4 +1,4 @@
-
+"use client"
 
 import { eventSchema } from '../app/lib/validators'
 import {Input } from '@/components/ui/input'
