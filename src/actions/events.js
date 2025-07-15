@@ -2,6 +2,7 @@
 import { eventSchema } from "@/app/lib/validators";
 import { auth } from "@clerk/nextjs/server";
 import {db} from "@/lib/prisma"
+import {startOfDay,addDays} from "date-fns"
 
 export async function createEvent(data) {
   const { userId } = await auth();
@@ -110,3 +111,6 @@ export async function getEventDetails(username, eventId) {
 
   return event;
 }
+
+
+

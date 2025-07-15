@@ -5,7 +5,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import EventCard from "../../components/EventCard";
 
 export async function generateMetadata({ params }) {
-  const user = await getUserByUsername(params.username);
+   const awaitedParams = await params;
+  const user = await getUserByUsername(awaitedParams.username);
 
   if (!user) {
     return {
@@ -20,7 +21,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function UserProfilePage({ params }) {
-  const currentUserName= await params.username
+  const awaitedParams = await params;
+  const currentUserName= await awaitedParams.username
   const user = await getUserByUsername(currentUserName);
 
   if (!user) {
@@ -49,7 +51,7 @@ export default async function UserProfilePage({ params }) {
             <EventCard
               key={event.id}
               event={event}
-              username={params.username}
+              username={awaitedParams.username}
               isPublic
             />
           ))}
