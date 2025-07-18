@@ -12,6 +12,8 @@ import useFetch from "@/hooks/useFetch";
 import { updateUsername } from "@/actions/user";
 import useOrigin from "@/hooks/useOrigin";
 import {BarLoader} from "react-spinners"
+import {getLatestUpdates} from "@/actions/dashboard";
+import { format } from "date-fns/format";
 const DashboardPage = () => {
   const { user, isLoaded } = useUser();
      const origin = useOrigin();
@@ -44,7 +46,15 @@ const DashboardPage = () => {
     fnUpdateUsername(data.username);
   }
 
+   const {
+    loading: loadingUpdates,
+    data: upcomingMeetings,
+    fn: fnUpdates,
+  } = useFetch(getLatestUpdates);
 
+  useEffect(() => {
+    (async () => await fnUpdates())();
+  }, []);
 
   return (
     <div className="space-y-8">
@@ -52,7 +62,7 @@ const DashboardPage = () => {
         <CardHeader>
           <CardTitle>Welcome, {user?.firstName}!</CardTitle>
         </CardHeader>
-        {/* <CardContent>
+         <CardContent>
           {!loadingUpdates ? (
             <div className="space-y-6 font-light">
               <div>
@@ -77,7 +87,7 @@ const DashboardPage = () => {
           ) : (
             <p>Loading updates...</p>
           )}
-        </CardContent> */}
+        </CardContent> 
       </Card>
 
       <Card>
