@@ -21,7 +21,7 @@ export async function createBooking(bookingData) {
     // Get the event creator's Google OAuth token from Clerk
     const { data, totalCount } = await client.users.getUserOauthAccessToken(
          event.user.clerkUserId,
-      "oauth_google"
+      "google"
     )
     console.log("Google OAuth token data:", data);
 
