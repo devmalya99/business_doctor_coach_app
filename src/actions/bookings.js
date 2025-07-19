@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/prisma";
 import { clerkClient } from "@clerk/nextjs/server";
-import { clouddebugger_v2, google } from "googleapis";
+import {google } from "googleapis";
 
 export async function createBooking(bookingData) {
   try {
@@ -19,7 +19,7 @@ export async function createBooking(bookingData) {
     const client = await clerkClient();
 
     // Get the event creator's Google OAuth token from Clerk
-    const { data, totalCount } = await client.users.getUserOauthAccessToken(
+    const { data } = await client.users.getUserOauthAccessToken(
          event.user.clerkUserId,
       "google"
     )

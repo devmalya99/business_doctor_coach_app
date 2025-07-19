@@ -71,7 +71,7 @@ export async function cancelMeeting(meetingId) {
    const client = await clerkClient();
 
     // Get the event creator's Google OAuth token from Clerk
-    const { data, totalCount } = await client.users.getUserOauthAccessToken(
+    const { data } = await client.users.getUserOauthAccessToken(
          meeting.user.clerkUserId,
     "google"
     )

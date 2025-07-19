@@ -6,7 +6,6 @@ import { ArrowRight, Calendar, Clock, LinkIcon } from "lucide-react";
 //import TestimonialsCarousel from "@/components/testimonials";
 import Link from "next/link";
 // import { checkUser } from "@/lib/checkUser";
-import { redirect } from "next/navigation";
 
 const features = [
   {
