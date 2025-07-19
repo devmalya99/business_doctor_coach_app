@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import {ClerkProvider} from "@clerk/nextjs"
 import CreateEventDrawer from "@/components/CreateEventDrawer"
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -29,7 +30,9 @@ export default function RootLayout({
               <p>All Rights Reserved @OMR_INDIA</p>
             </div>
           </footer>
-          <CreateEventDrawer/>
+          <Suspense>
+        <CreateEventDrawer />
+      </Suspense>
         </body>
     </html>
     </ClerkProvider>
