@@ -9,7 +9,6 @@ export const checkUser = async () => {
   if (!user) return null;
 
   const fullName = `${user.firstName || ""} ${user.lastName || ""}`.trim();
-  const email = user.emailAddresses[0]?.emailAddress;
   const imageUrl = user.imageUrl;
   const clerkUserId = user.id;
 
