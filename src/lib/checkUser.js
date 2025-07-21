@@ -2,11 +2,16 @@ import { currentUser } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
 
 export const checkUser = async () => {
-  const user = await currentUser();
+ 
 
-  if (!user) {
-    return null;
-  }
+   const user = await currentUser();
+
+  if (!user) return null;
+
+  const fullName = `${user.firstName || ""} ${user.lastName || ""}`.trim();
+  const email = user.emailAddresses[0]?.emailAddress;
+  const imageUrl = user.imageUrl;
+  const clerkUserId = user.id;
 
   try {
     const loggedInUser = await db?.user.findUnique({
@@ -15,7 +20,23 @@ export const checkUser = async () => {
       },
     });
 
-    if (loggedInUser) {
+       if (loggedInUser) {
+      // Update DB if Clerk name or image has changed
+      const needsUpdate =
+        loggedInUser.name !== fullName || loggedInUser.imageUrl !== imageUrl;
+
+      if (needsUpdate) {
+        const updatedUser = await db.user.update({
+          where: { clerkUserId },
+          data: {
+            name: fullName,
+            imageUrl,
+          },
+        });
+
+        return updatedUser;
+      }
+
       return loggedInUser;
     }
 

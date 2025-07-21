@@ -13,10 +13,18 @@ export async function GET() {
       }
     });
 
-    return NextResponse.json({ users }, { status: 200 });
-    
+     return new NextResponse(JSON.stringify({ users }), {
+      status: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*', // 🛑 For public API (or replace * with frontend origin)
+        'Access-Control-Allow-Methods': 'GET',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      },
+    });
+
   } catch (error) {
     console.error('Error fetching users:', error);
     return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
   }
+
 }

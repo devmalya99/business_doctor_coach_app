@@ -5,7 +5,8 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { ArrowRight, Calendar, Clock, LinkIcon } from "lucide-react";
 //import TestimonialsCarousel from "@/components/testimonials";
 import Link from "next/link";
-// import { checkUser } from "@/lib/checkUser";
+ import { checkUser } from "@/lib/checkUser";
+import { redirect } from "next/navigation";
 
 const features = [
   {
@@ -43,13 +44,13 @@ const features = [
 // ];
 
 async function Home() {
- // const user = await checkUser();
+ const user = await checkUser();
 
-  //If user exists redirect to dashboard
-  // if (user) {
-  //   // ✅ Redirect to dashboard
-  //   redirect("/dashboard");
-  // }
+ // If user exists redirect to dashboard
+  if (user) {
+    // ✅ Redirect to dashboard
+    redirect("/dashboard");
+  }
 
   return (
     <main className="container mx-auto px-4 py-16">
