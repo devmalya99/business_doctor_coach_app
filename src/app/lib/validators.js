@@ -62,3 +62,17 @@ export const bookingSchema = z.object({
   time: z.string().regex(/^\d{2}:\d{2}$/, "Invalid time format"),
   additionalInfo: z.string().optional(),
 });
+
+export const profileFormSchema = z.object({
+  bio: z.string().max(500,{
+    message:"Bio must not be longer than 500 characters"
+  }).optional(),
+
+  experience: z.string().max(100, {
+    message: "Experience must not be longer than 100 characters"
+  }).optional(),
+
+  industry: z.string().max(50,{
+    message:"Industry name must not be longer than 50 characters"
+  }).optional(),
+})

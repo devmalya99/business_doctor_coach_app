@@ -1,10 +1,7 @@
-import { SignIn } from '@clerk/nextjs'
-import React from 'react'
+// app/sign-in/[[...sign-in]]/page.tsx
+import { SignIn } from '@clerk/nextjs';
 
-const page = () => {
-  return (
-    <SignIn/>
-  )
+
+export default function SignInPage() {
+  return <SignIn/>
 }
-
-export default page

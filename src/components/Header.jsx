@@ -1,17 +1,22 @@
-
 import React from "react";
- import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from '@clerk/nextjs'
 import Image from "next/image";
 import Link from "next/link";
-import UserMenu from "@/components/UserMenu"
- import { checkUser } from "@/lib/checkUser";
-
+import { checkUser } from "@/lib/checkUser";
+import UserMenu from "@/components/UserMenu";
 import { Button } from "./ui/button";
 import { PenBox } from "lucide-react";
 
+async function Header() {
+  await checkUser();
 
-const Header = async () => {
-  await checkUser()
   return (
     <nav className="mx-auto py-2 px-4 flex justify-between items-center shadow-md border-b-2">
       <Link href="/" className="flex items-center">
@@ -19,7 +24,7 @@ const Header = async () => {
           src="/logo.png"
           width="150"
           height="60"
-          alt="Business Doctor logo"
+          alt="Schedulrr Logo"
           className="h-16 w-auto"
         />
       </Link>
@@ -31,21 +36,21 @@ const Header = async () => {
             <span className="hidden sm:inline">Create Event</span>
           </Button>
         </Link>
-        <SignedOut>
-          <SignInButton forceRedirectUrl="/dashboard">
-            <Button variant="outline">Login</Button>
-          </SignInButton>
 
-          <SignUpButton>
-    <Button variant="default">Sign Up</Button>
-  </SignUpButton>
-        </SignedOut>
-        <SignedIn>
-          <UserMenu />
-        </SignedIn>
+        <SignedOut>
+              <SignInButton />
+              <SignUpButton>
+                <Button variant={"outline"} className=" cursor-pointer">
+                  Sign Up
+                </Button>
+              </SignUpButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
       </div>
     </nav>
-  )
+  );
 }
 
-export default Header
+export default Header;

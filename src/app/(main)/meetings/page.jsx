@@ -4,11 +4,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MeetingList from "@/components/meetings/MeetingList";
 
 export const metadata = {
-  title: "Your Meetings | Schedulrr",
+  title: "Your Meetings ",
   description: "View and manage your upcoming and past meetings.",
 };
 
 export default async function MeetingsPage() {
+
+   await new Promise ((resolve)=>{
+    setTimeout(()=>{
+       resolve("Intentional delay")
+    },2000)
+   })
+
   return (
     <Tabs defaultValue="upcoming">
       <TabsList className="mb-4">

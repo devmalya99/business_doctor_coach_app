@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser } from "@clerk/nextjs";
+import { SignIn,useUser } from "@clerk/nextjs";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -14,10 +14,12 @@ import useOrigin from "@/hooks/useOrigin";
 import {BarLoader} from "react-spinners"
 import {getLatestUpdates} from "@/actions/dashboard";
 import { format } from "date-fns/format";
+
+
+
 const DashboardPage = () => {
   const { user, isLoaded } = useUser();
      const origin = useOrigin();
-     console.log("user",user)
 
   useFetch(updateUsername)
 
