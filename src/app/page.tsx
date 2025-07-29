@@ -6,6 +6,7 @@ import { ArrowRight, Calendar, Clock, LinkIcon } from "lucide-react";
 //import TestimonialsCarousel from "@/components/testimonials";
 import Link from "next/link";
  import { checkUser } from "@/lib/checkUser";
+import { useUser } from "@clerk/nextjs";
 
 
 const features = [
@@ -45,15 +46,9 @@ const features = [
 
 async function Home() {
 
+
+
 await checkUser();
-
- 
-
- // If user exists redirect to dashboard
-  // if (user) {
-  //   // ✅ Redirect to dashboard
-  //   redirect("/dashboard");
-  // }
 
   return (
     <main className="container mx-auto px-4 py-16">

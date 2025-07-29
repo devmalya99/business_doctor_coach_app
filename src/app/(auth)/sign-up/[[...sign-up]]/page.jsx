@@ -3,5 +3,5 @@ import { SignUp } from '@clerk/nextjs';
 
 
 export default function SignUpPage() {
-  return <SignUp/>
+  return <SignUp path="/sign-up" />
 }

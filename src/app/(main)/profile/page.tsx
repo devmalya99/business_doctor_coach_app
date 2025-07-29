@@ -6,16 +6,30 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import Image from "next/image";
-import { Form, useForm } from "react-hook-form";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import z from "zod";
+import { useForm } from "react-hook-form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { z } from "zod";
 import { profileFormSchema } from "@/app/lib/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
+interface ProfileData {
+  id: string;
+  clerkUserId: string;
+  email: string;
+  username: string;
+  name: string;
+  role: string;
+  imageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+  bio: string | null;
+  experience: string | null;
+  industry: string | null;
+}
 
-const initialData = {
+const initialData: ProfileData = {
   id: "e7ddd5f5-09e1-4606-b5a7-e59c2686d799",
   clerkUserId: "user_302TYcxhNZSaVYh5ADlb7TVKyLA",
   email: "devmalya2025@gmail.com",
@@ -32,23 +46,20 @@ const initialData = {
 };
 
 export default function ProfilePage() {
-  const [profile, setProfile] = useState(initialData);
-  const [bio, setBio] = useState(profile.bio || "");
-  const [experience, setExperience] = useState(profile.experience || "");
-  const [industry, setIndustry] = useState(profile.industry || "");
+  const [profile, setProfile] = useState<ProfileData>(initialData);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   
   const form = useForm<ProfileFormValues>({
-    resolver:zodResolver(profileFormSchema),
-    defaultValues:{
-        bio:profile.bio || "",
-        experience: profile.experience || "",
-        industry:profile.industry || ""
+    resolver: zodResolver(profileFormSchema),
+    defaultValues: {
+      bio: profile.bio || "",
+      experience: profile.experience || "",
+      industry: profile.industry || ""
     },
-    mode:"onChange"
-  })
+    mode: "onChange"
+  });
 
- const handleSave = (data: ProfileFormValues) => {
+  const handleSave = (data: ProfileFormValues) => {
     setProfile({ ...profile, ...data });
     setIsDialogOpen(false);
   };
@@ -62,6 +73,7 @@ export default function ProfilePage() {
           width={100}
           height={100}
           className="rounded-full border shadow"
+          priority
         />
         <div>
           <h1 className="text-2xl font-semibold">{profile.name}</h1>
@@ -90,7 +102,7 @@ export default function ProfilePage() {
           </p>
         </div>
 
-        <Dialog>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button className="mt-4">Edit Profile</Button>
           </DialogTrigger>
@@ -98,30 +110,26 @@ export default function ProfilePage() {
             <DialogHeader>
               <DialogTitle>Edit Your Profile</DialogTitle>
             </DialogHeader>
-           <Form {...form}>
-
-            <form onSubmit={form.handleSubmit(handleSave)} className="space-y-4">
-               <FormField
-               control={form.control}
-               name="bio"
-               render={({field})=>(
-                <FormItem>
-                    <FormLabel>Bio</FormLabel>
-                    <FormControl>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(handleSave)} className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="bio"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Bio</FormLabel>
+                      <FormControl>
                         <Textarea 
-                         placeholder="Tell us about yourself"
-                         className="resize-none"
-                         {...field}
+                          placeholder="Tell us about yourself"
+                          className="resize-none"
+                          {...field}
                         />
-                    </FormControl>
-                </FormItem>
-               )}
-
-               >
-
-               </FormField>
-
-                 <FormField
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
                   control={form.control}
                   name="experience"
                   render={({ field }) => (
@@ -154,12 +162,8 @@ export default function ProfilePage() {
                   )}
                 />
                 <Button type="submit">Save changes</Button>
-
-            </form>
-
-           </Form>
-
-            
+              </form>
+            </Form>
           </DialogContent>
         </Dialog>
       </div>
