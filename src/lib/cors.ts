@@ -1,4 +1,7 @@
 // lib/cors.ts
+// lib/cors.ts
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 export const corsHeaders = {
   "Access-Control-Allow-Origin": "*", // 🔒 Use your domain in prod
@@ -6,13 +9,13 @@ export const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
-export async function handleCors(req: Request) {
+export async function handleCors(req: NextRequest) {
   if (req.method === "OPTIONS") {
-    return new Response(null, {
+    return new NextResponse(null, {
       status: 204,
       headers: corsHeaders,
     });
   }
 
-  return null; // means continue to actual handler
+  return undefined; // means continue to actual handler
 }

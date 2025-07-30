@@ -1,13 +1,13 @@
 import { db } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { handleCors, corsHeaders } from "@/lib/cors";
 
-export async function OPTIONS(req: Request) {
+export async function OPTIONS(req: NextRequest) {
   return handleCors(req);
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const cors = await handleCors(req);
   if (cors) return cors;
 

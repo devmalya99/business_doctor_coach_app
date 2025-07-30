@@ -1,14 +1,14 @@
 import { db } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { handleCors, corsHeaders } from "@/lib/cors";
 
-export async function OPTIONS(req: Request) {
+export async function OPTIONS(req: NextRequest) {
   return handleCors(req);
 }
 
-export async function POST(req: Request) {
-  const cors = await handleCors(req);
-  if (cors) return cors;
+export async function POST(req: NextRequest) {
+  const corsResponse = await handleCors(req);
+  if (corsResponse) return corsResponse;
 
   try {
     const body = await req.json();
@@ -32,21 +32,13 @@ export async function POST(req: Request) {
       );
     }
 
-    return new NextResponse(
-      JSON.stringify({ coach }),
-      {
-        status: 200,
-        headers: corsHeaders,
-      }
-    );
+     return NextResponse.json({ coach }, { headers: corsHeaders });
+
   } catch (error) {
     console.error("Fetch Coach Error:", error);
-    return new NextResponse(
-      JSON.stringify({ error: "Internal Server Error" }),
-      {
-        status: 500,
-        headers: corsHeaders,
-      }
+      return NextResponse.json(
+      { error: 'Invalid request' },
+      { status: 400, headers: corsHeaders }
     );
   }
 }
