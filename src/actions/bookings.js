@@ -33,6 +33,7 @@ export async function createBooking(bookingData) {
 
     // Set up Google OAuth client
     const oauth2Client = new google.auth.OAuth2();
+    console.log(oauth2Client)
     oauth2Client.setCredentials({ access_token: token });
 
     const calendar = google.calendar({ version: "v3", auth: oauth2Client });
