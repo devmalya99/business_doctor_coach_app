@@ -13,6 +13,7 @@ export async function GET() {
       }
     });
 
+    console.log(users)
      return new NextResponse(JSON.stringify({ users }), {
       status: 200,
       headers: {
@@ -21,7 +22,6 @@ export async function GET() {
         'Access-Control-Allow-Headers': 'Content-Type',
       },
     });
-
   } catch (error) {
     console.error('Error fetching users:', error);
     return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
