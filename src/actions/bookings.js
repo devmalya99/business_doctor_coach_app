@@ -6,6 +6,7 @@ import {google } from "googleapis";
 
 export async function createBooking(bookingData) {
   try {
+   
     // Fetch the event and its creator
     const event = await db.event.findUnique({
       where: { id: bookingData.eventId },

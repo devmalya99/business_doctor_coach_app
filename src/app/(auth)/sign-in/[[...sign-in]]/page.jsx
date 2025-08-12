@@ -3,8 +3,8 @@ import { SignIn } from '@clerk/nextjs';
 
 
 export default function SignInPage() {
-  return <SignIn 
+  return <div ><SignIn 
   path="/sign-in"
   signInFallbackRedirectUrl="/dashboard"
-   />
+   /></div>
 }

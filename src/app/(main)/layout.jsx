@@ -22,25 +22,34 @@ export default function AppLayout({ children }) {
       {!isLoaded && <BarLoader width={"100%"} color="#36d7b7" />}
       <div className="flex flex-col h-screen  md:flex-row">
         {/* Sidebar for medium screens and up */}
-        <aside className="hidden md:block w-64 bg-white">
-          <nav className="mt-8">
-            <ul>
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={`flex items-center px-4 py-4 text-gray-700  hover:bg-gray-100 ${
-                      pathname === item.href ? "bg-purple-100" : ""
-                    }`}
-                  >
-                    <item.icon className="w-5 h-5 mr-3" />
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </aside>
+        <aside className="hidden md:block w-64 bg-white shadow-lg border-r border-gray-200">
+  <nav className="mt-8">
+    <ul className="space-y-1">
+      {navItems.map((item) => (
+        <li key={item.href}>
+          <Link
+            href={item.href}
+            className={`flex items-center px-5 py-3 rounded-lg text-gray-700 font-medium transition-all duration-200
+              hover:bg-purple-50 hover:text-purple-700
+              ${
+                pathname === item.href
+                  ? "bg-purple-100 text-purple-800 border-l-4 border-purple-500"
+                  : ""
+              }`}
+          >
+            <item.icon
+              className={`w-5 h-5 mr-3 transition-colors duration-200 ${
+                pathname === item.href ? "text-purple-600" : "text-gray-500"
+              }`}
+            />
+            {item.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</aside>
+
 
         {/* Main content */}
         <main className="flex-1 overflow-y-auto p-4 md:p-8">
