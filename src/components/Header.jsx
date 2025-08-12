@@ -6,7 +6,7 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
-} from '@clerk/nextjs'
+} from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { checkUser } from "@/lib/checkUser";
@@ -39,16 +39,17 @@ async function Header() {
         </Link>
 
         <SignedOut>
-              <SignInButton />
-              <SignUpButton>
-                <Button variant={"outline"} className=" cursor-pointer">
-                  Sign Up
-                </Button>
-              </SignUpButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
+          <SignInButton />
+          <SignUpButton>
+            <Button variant={"outline"} className=" cursor-pointer">
+              Sign Up
+            </Button>
+          </SignUpButton>
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+            <span className="text-[1rem] text-black">v21</span>
       </div>
     </nav>
   );
