@@ -30,7 +30,7 @@ export default async function UserProfilePage({ params }) {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto  px-4 py-8 h-[calc(100vh-106px)]">
       <div className="flex flex-col items-center mb-8">
         <Avatar className="w-24 h-24 mb-4">
           <AvatarImage src={user.imageUrl} alt={user.name} />

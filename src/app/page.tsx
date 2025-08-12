@@ -5,19 +5,21 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { ArrowRight, Calendar, Clock, LinkIcon } from "lucide-react";
 //import TestimonialsCarousel from "@/components/testimonials";
 import Link from "next/link";
- import { checkUser } from "@/lib/checkUser";
-
+import { checkUser } from "@/lib/checkUser";
+import { deleteUser } from "@/lib/deleteUser";
 
 const features = [
   {
     icon: Calendar,
     title: "Host Mentorship Sessions",
-    description: "Schedule 1:1 or group sessions to guide new entrepreneurs in building their business ideas.",
+    description:
+      "Schedule 1:1 or group sessions to guide new entrepreneurs in building their business ideas.",
   },
   {
     icon: Clock,
     title: "Set Your Availability",
-    description: "Control when you're available to provide mentorship and streamline session scheduling.",
+    description:
+      "Control when you're available to provide mentorship and streamline session scheduling.",
   },
   {
     icon: LinkIcon,
@@ -25,7 +27,6 @@ const features = [
     description: "Exclusive access to your clients progress and ",
   },
 ];
-
 
 // const howItWorks = [
 //   { step: "Sign Up", description: "Create your free Schedulrr account" },
@@ -44,10 +45,8 @@ const features = [
 // ];
 
 async function Home() {
-
-
-
-await checkUser();
+  await deleteUser();
+  await checkUser();
 
   return (
     <main className="container mx-auto px-4 py-16">

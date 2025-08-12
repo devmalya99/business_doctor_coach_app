@@ -13,10 +13,11 @@ import { checkUser } from "@/lib/checkUser";
 import UserMenu from "@/components/UserMenu";
 import { Button } from "./ui/button";
 import { PenBox } from "lucide-react";
+import { deleteUser } from "@/lib/deleteUser";
 
 async function Header() {
+  await deleteUser();
   await checkUser();
-
   return (
     <nav className="mx-auto py-2 px-4 flex justify-between items-center shadow-md border-b-2">
       <Link href="/" className="flex items-center">
