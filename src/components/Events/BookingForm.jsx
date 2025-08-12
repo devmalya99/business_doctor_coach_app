@@ -30,7 +30,6 @@ export default function BookingForm({ event, availability }) {
     if (selectedDate) {
       setValue("date", format(selectedDate, "yyyy-MM-dd"));
     }
-    console.log(selectedDate);
   }, [selectedDate, setValue]);
 
   useEffect(() => {
@@ -42,7 +41,7 @@ export default function BookingForm({ event, availability }) {
   const { loading, data, fn: fnCreateBooking } = useFetch(createBooking);
 
   const onSubmit = async (data) => {
-    console.log("Form submitted with data:", data);
+    console.log("Form submitted with data::::", data);
 
     if (!selectedDate || !selectedTime) {
       console.error("Date or time not selected");
@@ -64,6 +63,7 @@ export default function BookingForm({ event, availability }) {
     };
 
     await fnCreateBooking(bookingData);
+    
   };
 
   const availableDays = availability.map((day) => new Date(day.date));
@@ -73,7 +73,7 @@ export default function BookingForm({ event, availability }) {
         (day) => day.date === format(selectedDate, "yyyy-MM-dd")
       )?.slots || []
     : [];
-
+    console.log(data)
   if (data) {
     return (
       <div className="text-center p-10 border bg-white">
@@ -97,52 +97,47 @@ export default function BookingForm({ event, availability }) {
 
   return (
     <div className="flex flex-col gap-8 p-10 border bg-white">
-     <div className="md:h-96 flex flex-col md:flex-row gap-6 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md">
-  <div className="w-full">
-    <DayPicker
-      mode="single"
-      selected={selectedDate}
-      onSelect={(date) => {
-        setSelectedDate(date);
-        setSelectedTime(null); // Reset selected time when date changes
-      }}
-      disabled={[{ before: new Date() }]}
-      modifiers={{ available: availableDays }}
-      modifiersStyles={{
-        available: {
-          background: "#bfdbfe", // Tailwind's blue-200
-          borderRadius: "9999px",
-        },
-      }}
-    />
-  </div>
-
-  <div className="w-full h-full md:overflow-y-scroll no-scrollbar bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
-    {selectedDate && (
-      <div className="mb-4">
-        <h3 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
-          Available Time Slots
-        </h3>
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
-          {timeSlots.map((slot) => (
-            <Button
-              key={slot}
-              variant={selectedTime === slot ? "default" : "outline"}
-              className={`w-full py-2 rounded-lg text-sm font-medium transition 
-                ${selectedTime === slot 
-                  ? "bg-blue-600 text-white hover:bg-blue-700" 
-                  : "border border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-800"}`}
-              onClick={() => setSelectedTime(slot)}
-            >
-              {slot}
-            </Button>
-          ))}
+      <div className="md:h-96 flex flex-col md:flex-row gap-5 ">
+        <div className="w-full">
+          <DayPicker
+            mode="single"
+            selected={selectedDate}
+            onSelect={(date) => {
+              setSelectedDate(date);
+              setSelectedTime(null); // Reset selected time when date changes
+            }}
+            disabled={[{ before: new Date() }]}
+            modifiers={{ available: availableDays }}
+            modifiersStyles={{
+              available: {
+                background: "lightblue",
+                borderRadius: 100,
+              },
+            }}
+          />
+        </div>
+        <div className="w-full h-full md:overflow-scroll no-scrollbar">
+          {/* add hide scroll bar code */}
+          {selectedDate && (
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold mb-2">
+                Available Time Slots
+              </h3>
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
+                {timeSlots.map((slot) => (
+                  <Button
+                    key={slot}
+                    variant={selectedTime === slot ? "default" : "outline"}
+                    onClick={() => setSelectedTime(slot)}
+                  >
+                    {slot}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
-    )}
-  </div>
-</div>
-
       {selectedTime && (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>

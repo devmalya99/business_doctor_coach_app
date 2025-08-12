@@ -2,10 +2,9 @@ import { currentUser } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
 
 export const checkUser = async () => {
-
   const user = await currentUser();
-
   if (!user) return null;
+  // console.log(user.externalAccounts[0].emailAddress);
 
   const fullName = `${user.firstName || ""} ${user.lastName || ""}`.trim();
   const imageUrl = user.imageUrl;
@@ -17,8 +16,8 @@ export const checkUser = async () => {
         clerkUserId: user.id,
       },
     });
-
-       if (loggedInUser) {
+    // console.log(loggedInUser.clerkUserId,clerkUserId);
+    if (loggedInUser) {
       // Update DB if Clerk name or image has changed
       const needsUpdate =
         loggedInUser.name !== fullName || loggedInUser.imageUrl !== imageUrl;
@@ -54,6 +53,9 @@ export const checkUser = async () => {
       },
     });
 
+    
+    
+    
     return newUser;
   } catch (error) {
     console.log(error);

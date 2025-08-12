@@ -19,7 +19,7 @@ import UpcomingMeetingsSkeleton from "@/components/UpcomingMeetingsSkeleton";
 const DashboardPage = () => {
   const { user, isLoaded } = useUser();
   const origin = useOrigin();
-
+console.log(user)
   useFetch(updateUsername);
 
   const {
