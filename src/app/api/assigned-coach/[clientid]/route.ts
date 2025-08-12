@@ -5,11 +5,11 @@ import { db } from "@/lib/prisma";
 
 export async function GET(
   req: Request,
-  { params }: { params: { clientid: string } }
+  { params }: { params: Promise<{ clientid: string }> }
 ) {
   try {
-    const { clientid } =  params;
-    // console.log(clientid);
+    const { clientid } = await params;
+    console.log(clientid);
     const coaches = await db.user.findMany({
       where: {
         role: "coach",
@@ -23,7 +23,7 @@ export async function GET(
         bookings: true,
       },
     });
-    // console.log(coaches);
+    console.log(coaches);
     return NextResponse.json({ coaches }, {
       status: 200,
       headers: {
