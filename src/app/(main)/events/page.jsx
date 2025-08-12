@@ -16,7 +16,7 @@ export default EventsPage
 
 const Events=async()=>{
   const {events,username}= await getUserEvents();
-  console.log(events)
+  // console.log(events)
   if(events.length===0)
   {
     return <p>You havnt created any events yet</p>

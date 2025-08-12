@@ -19,7 +19,7 @@ import UpcomingMeetingsSkeleton from "@/components/UpcomingMeetingsSkeleton";
 const DashboardPage = () => {
   const { user, isLoaded } = useUser();
   const origin = useOrigin();
-console.log(user)
+// console.log(user)
   useFetch(updateUsername);
 
   const {
@@ -39,7 +39,7 @@ console.log(user)
   const { loading, error, fn: fnUpdateUsername } = useFetch(updateUsername);
 
   const onSubmitFn = async (data) => {
-    console.log(error);
+    // console.log(error);
     fnUpdateUsername(data.username);
   };
 

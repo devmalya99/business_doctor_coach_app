@@ -13,7 +13,7 @@ export async function GET() {
       }
     });
 
-    console.log(users)
+    // console.log(users)
      return new NextResponse(JSON.stringify({ users }), {
       status: 200,
       headers: {

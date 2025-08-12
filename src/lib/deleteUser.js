@@ -16,7 +16,7 @@ export const deleteUser = async () => {
 
 //   console.log(loggedInUser.clerkUserId)
   if (!loggedInUser) {
-    console.log("User not found in DB");
+    // console.log("User not found in DB");
     return null;
   }
   // Compare email and Clerk ID
@@ -26,7 +26,7 @@ export const deleteUser = async () => {
         where: { clerkUserId: loggedInUser.clerkUserId },
       });
 
-      console.log("Deleted user:", deletedUser);
+    //   console.log("Deleted user:", deletedUser);
       return deletedUser;
     } catch (error) {
       console.error("Error deleting user:", error);
