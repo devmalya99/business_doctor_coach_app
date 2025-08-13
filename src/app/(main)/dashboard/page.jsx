@@ -1,9 +1,5 @@
 "use client";
-import {
-  
-  Copy,
-  Check,
-} from "lucide-react";
+import { Copy, Check } from "lucide-react";
 import { SignIn, useUser } from "@clerk/nextjs";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -259,7 +255,6 @@ const DashboardPage = () => {
                 <span className="p-1">{origin}</span>
 
                 <Input {...register("username")} placeholder="username" />
-         
               </div>
               {errors.username && (
                 <p className="text-red-500 my-2">{errors.username.message}</p>
@@ -269,30 +264,30 @@ const DashboardPage = () => {
             {loading && (
               <BarLoader className="my-4" width={"100%"} color="#36d7b7" />
             )}
-                 <div className="flex gap-3">
-            <Button type="submit">Update UserName</Button>
-          <Button
-           type="button" 
-            variant="outline"
-            onClick={(e) => {
-              handleButtonClick(e);
-              UrlCopied();
-            }}
-            className="flex bg-white hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 transition-all duration-200"
-          >
-            {copy ? (
-              <>
-                <Check className="mr-2 h-4 w-4" />
-                Copied!
-              </>
-            ) : (
-              <>
-                <Copy className="mr-2 h-4 w-4" />
-                Copy Link
-              </>
-            )}
-          </Button>
-          </div>
+            <div className="flex gap-3">
+              <Button type="submit">Update UserName</Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={(e) => {
+                  handleButtonClick(e);
+                  UrlCopied();
+                }}
+                className="flex bg-white hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 transition-all duration-200"
+              >
+                {copy ? (
+                  <>
+                    <Check className="mr-2 h-4 w-4" />
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy className="mr-2 h-4 w-4" />
+                    Copy Link
+                  </>
+                )}
+              </Button>
+            </div>
           </form>
         </CardContent>
       </Card>
