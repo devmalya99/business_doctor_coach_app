@@ -49,7 +49,7 @@ async function Header() {
         <SignedIn>
           <UserButton />
         </SignedIn>
-            <span className="text-[1rem] text-black">v21</span>
+            <span className="text-[1rem] text-black">v22.1</span>
       </div>
     </nav>
   );
