@@ -6,7 +6,7 @@ import EventCard from "../../components/EventCard";
 
 export async function generateMetadata({ params }) {
    const awaitedParams = await params;
-  const user = await getUserByUsername(awaitedParams.username);
+  const user = await (awaitedParams.username);
 
   if (!user) {
     return {

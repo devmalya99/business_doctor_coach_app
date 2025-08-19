@@ -12,11 +12,15 @@ import { createBooking } from "@/actions/bookings";
 import { bookingSchema } from "@/app/lib/validators";
 import "react-day-picker/style.css";
 import useFetch from "@/hooks/useFetch";
+import { API_NODE_URL } from "@/services/api_urls";
+import { getUser } from "@/actions/getavaliability";
 
 export default function BookingForm({ event, availability }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
 
+  const [dataflag, setdataflag] = useState(true);
+  console.log(API_NODE_URL);
   const {
     register,
     handleSubmit,
@@ -39,9 +43,45 @@ export default function BookingForm({ event, availability }) {
   }, [selectedTime, setValue]);
 
   const { loading, data, fn: fnCreateBooking } = useFetch(createBooking);
+  // const { loadings, datas, fn: fnGetUser } = useFetch(getUser);
+
+  const userByEmail = async (email) => {
+    try {
+      const res = await fetch(`${API_NODE_URL}/user/find-email/${email}`);
+      if (!res.ok) return null; // if 404 or error
+      const data = await res.json();
+      return data ?? null;
+    } catch (error) {
+      console.error("Error fetching user by email:", error);
+      return null;
+    }
+  };
 
   const onSubmit = async (data) => {
-    // console.log("Form submitted with data::::", data);
+    console.log("Form submitted with data::::", data);
+
+    const userDetail = await userByEmail(data.email);
+    console.log(userDetail);
+    // handle null/undefined from userByEmail
+    if (!userDetail) {
+      
+      alert("No user found with this email. Please check and try again.");
+      return;
+    }
+
+    const coachDetail = await getUser(userDetail?.coachId);
+    console.log(coachDetail);
+
+    const matchClerkId = coachDetail?.clientIds?.find(
+      (id) => id === userDetail?.clerkId
+    );
+    console.log(matchClerkId);
+
+    if (!selectedDate || !selectedTime) {
+      console.error("Date or time not selected");
+      alert("Please select a date and time before submitting.");
+      return;
+    }
 
     if (!selectedDate || !selectedTime) {
       console.error("Date or time not selected");
@@ -52,18 +92,23 @@ export default function BookingForm({ event, availability }) {
       `${format(selectedDate, "yyyy-MM-dd")}T${selectedTime}`
     );
     const endTime = new Date(startTime.getTime() + event.duration * 60000);
+    if (matchClerkId) {
+      const bookingData = {
+        eventId: event.id,
+        name: data.name,
+        email: data.email,
+        startTime: startTime.toISOString(),
+        endTime: endTime.toISOString(),
+        additionalInfo: data.additionalInfo,
+      };
 
-    const bookingData = {
-      eventId: event.id,
-      name: data.name,
-      email: data.email,
-      startTime: startTime.toISOString(),
-      endTime: endTime.toISOString(),
-      additionalInfo: data.additionalInfo,
-    };
+      await fnCreateBooking(bookingData);
+    } else {
+      alert("not your coach");
+      // setdataflag(false)
+    }
 
-    await fnCreateBooking(bookingData);
-    
+    // console.log(bookingData);
   };
 
   const availableDays = availability.map((day) => new Date(day.date));
@@ -73,7 +118,7 @@ export default function BookingForm({ event, availability }) {
         (day) => day.date === format(selectedDate, "yyyy-MM-dd")
       )?.slots || []
     : [];
-    // console.log(data)
+  // console.log(data)
   if (data) {
     return (
       <div className="text-center p-10 border bg-white">
