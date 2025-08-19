@@ -1,0 +1,1 @@
+export const API_NODE_URL= process.env.NEXT_PUBLIC_NODE_API_URL

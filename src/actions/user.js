@@ -64,3 +64,15 @@ export async function getUserByUsername(username) {
 
   return user;
 }
+
+
+// export async function getUserByEmail(email) {
+//   const user = await db.user.findUnique({
+//     where: { email },
+//    include:{
+//     clientIds
+//    }
+//   });
+
+//   return user;
+// }
