@@ -31,7 +31,7 @@ async function Header() {
       </Link>
 
       <div className="flex items-center gap-4">
-        <Link href="/events?create=true">
+        <Link href="?create=true">
           <Button variant="default" className="flex items-center gap-2">
             <PenBox size={18} />
             <span className="hidden sm:inline">Create Event</span>

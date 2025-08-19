@@ -2,28 +2,27 @@
 
 import { db } from "@/lib/prisma";
 import { clerkClient } from "@clerk/nextjs/server";
-import {google } from "googleapis";
+import { google } from "googleapis";
 
 export async function createBooking(bookingData) {
   try {
-   
     // Fetch the event and its creator
     const event = await db.event.findUnique({
       where: { id: bookingData.eventId },
       include: { user: true },
     });
 
+    
     if (!event) {
       throw new Error("Event not found");
     }
-     
-    const client = await clerkClient();
 
+    const client = await clerkClient();
     // Get the event creator's Google OAuth token from Clerk
     const { data } = await client.users.getUserOauthAccessToken(
-         event.user.clerkUserId,
+      event.user.clerkUserId,
       "google"
-    )
+    );
     console.log("Google OAuth token data:", data);
 
     const token = data[0]?.token;
@@ -34,7 +33,7 @@ export async function createBooking(bookingData) {
 
     // Set up Google OAuth client
     const oauth2Client = new google.auth.OAuth2();
-    console.log(oauth2Client)
+    console.log(oauth2Client);
     oauth2Client.setCredentials({ access_token: token });
 
     const calendar = google.calendar({ version: "v3", auth: oauth2Client });
