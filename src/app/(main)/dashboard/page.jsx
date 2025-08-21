@@ -56,16 +56,30 @@ const DashboardPage = () => {
   }, []);
 
   const UrlCopied = async () => {
-    try {
-      await navigator.clipboard.writeText(
-        `${window?.location.origin}/${user?.username}`
-      );
-      setCopy(true);
-      setTimeout(() => setCopy(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy: ", err);
+  const textToCopy = `${window?.location.origin}/${user?.username}`;
+
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      // ✅ Modern API (works on https or localhost)
+      await navigator.clipboard.writeText(textToCopy);
+    } else {
+      // ⚡ Fallback for http
+      const textarea = document.createElement("textarea");
+      textarea.value = textToCopy;
+      textarea.style.position = "fixed"; // avoid scroll jump
+      textarea.style.left = "-9999px";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
     }
-  };
+
+    setCopy(true);
+    setTimeout(() => setCopy(false), 2000);
+  } catch (err) {
+    console.error("Failed to copy: ", err);
+  }
+};
   const handleButtonClick = (e) => {
     e.stopPropagation();
   };
