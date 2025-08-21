@@ -31,17 +31,32 @@ export default function EventCard({ event, username, isPublic = false }) {
   const [isCopied, setIsCopied] = useState(false);
   const router = useRouter();
 
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(
-        `${window?.location.origin}/${username}/${event.id}`
-      );
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy: ", err);
+const handleCopy = async () => {
+  const textToCopy = `${window?.location.origin}/${username}/${event.id}`;
+
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      // Modern API (works on HTTPS or localhost)
+      await navigator.clipboard.writeText(textToCopy);
+    } else {
+      // Fallback for HTTP / older browsers
+      const textarea = document.createElement("textarea");
+      textarea.value = textToCopy;
+      textarea.style.position = "fixed";
+      textarea.style.left = "-9999px";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      document.execCommand("copy");
+      textarea.remove();
     }
-  };
+
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  } catch (err) {
+    console.error("Failed to copy: ", err);
+  }
+};
 
   const { loading, fn: fnDeleteEvent } = useFetch(deleteEvent);
 
