@@ -8,24 +8,35 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 const GetStarted = () => {
-  const { user } = useUser();
-  const [Status, setStatus] = useState({});
+  const { user, isLoaded } = useUser(); // 👈 use isLoaded
+  const [status, setStatus] = useState({});
+  const [loading, setLoading] = useState(false);
+
   const getOnboardStatus = async (id) => {
-    const getStatus = await getUser(id);
-    if (!getStatus) return null;
-    setStatus(getStatus);
+    try {
+      setLoading(true);
+      const getStatus = await getUser(id);
+      if (!getStatus) return;
+      setStatus(getStatus);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
-  console.log(user?.id);
+
   useEffect(() => {
-    getOnboardStatus(user?.id);
-  }, []);
-  console.log(Status);
+    if (isLoaded && user?.id) {
+      getOnboardStatus(user.id); // 👈 only run when Clerk is ready
+    }
+  }, [isLoaded, user?.id]);
 
   return (
     <div>
-      <Link href={Status.isOnboarded ? "/dashboard" : "/onboard"}>
-        <Button size="lg" className="text-lg">
-          Get Started <ArrowRight className="ml-2 h-5 w-5" />
+      <Link href={status.isOnboarded ? "/dashboard" : "/onboard"}>
+        <Button size="lg" disabled={loading} className="text-lg">
+          {loading ? "Loading..." : "Get Started"}{" "}
+          <ArrowRight className="ml-2 h-5 w-5" />
         </Button>
       </Link>
     </div>
