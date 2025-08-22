@@ -72,7 +72,7 @@ export async function updateAvailability(data) {
     where: { clerkUserId: userId },
     include: { availability: true },
   });
-
+  console.log(user);
   if (!user) {
     throw new Error("User not found");
   }

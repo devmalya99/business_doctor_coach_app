@@ -1,3 +1,4 @@
+
 import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -7,6 +8,8 @@ import { ArrowRight, Calendar, Clock, LinkIcon } from "lucide-react";
 import Link from "next/link";
 import { checkUser } from "@/lib/checkUser";
 import { deleteUser } from "@/lib/deleteUser";
+import GetStarted from "@/components/GetStarted"
+
 
 const features = [
   {
@@ -45,8 +48,12 @@ const features = [
 // ];
 
 async function Home() {
-  await deleteUser();
-  await checkUser();
+
+      await deleteUser();
+      await checkUser();
+    
+
+  
 
   return (
     <main className="container mx-auto px-4 py-16">
@@ -62,11 +69,8 @@ async function Home() {
             journey to build impactful ventures.
           </p>
 
-          <Link href={"/dashboard"}>
-            <Button size="lg" className="text-lg">
-              Get Started <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
+          
+          <GetStarted/>
         </div>
         <div className="lg:w-1/2 flex justify-center">
           <div className="relative w-full max-w-md aspect-square">
